@@ -113,7 +113,7 @@
 
 ## ⚙️ **시스템 아키텍처**
 
-<img src="https://github.com/user-attachments/assets/2c2e6a27-fd17-46cf-9b98-d0cde3128c06" width="700px" alt="아키텍처" />
+<img src="https://github.com/user-attachments/assets/780af89b-ac12-4e86-a2c4-f82136c98618" width="700px" alt="아키텍처" />
 
 <br />
 
