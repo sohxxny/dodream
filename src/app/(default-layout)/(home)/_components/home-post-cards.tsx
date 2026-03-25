@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import DefaultPostCard from '@/components/features/post/post-card/presets/default-post-card';
+import { useGetMyBookmarksByPostId } from '@/hooks/my/use-get-my-bookmarked-posts';
 import type {
   PostContentType,
   PostStatusType,
@@ -11,6 +12,10 @@ interface HomePostCardsProps {
 }
 
 function HomePostCards({ posts }: HomePostCardsProps) {
+  const { data: bookmarkIds = new Set() } = useGetMyBookmarksByPostId(
+    posts.map((post) => BigInt(post.id).toString()),
+  );
+
   return (
     <ul className="grid grid-cols-3 gap-7">
       {posts.map((post) => {
@@ -27,7 +32,7 @@ function HomePostCards({ posts }: HomePostCardsProps) {
               viewCount={post.viewCount}
               stacks={post.techs}
               roles={post.roles}
-              isBookmarked={post.isBookmarked}
+              isBookmarked={bookmarkIds.has(BigInt(post.id).toString())}
             />
           </li>
         );

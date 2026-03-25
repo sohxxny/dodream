@@ -27,5 +27,31 @@ export default function useToggleBookmark() {
         queryKey: [QUERY_KEY.auth, QUERY_KEY.myMatchedPosts],
       });
     },
+    // 낙관적 업데이트
+    onMutate: (postId) => {
+      const raw = queryClient.getQueryData<{ bookmarkedPostIds: string[] }>([
+        QUERY_KEY.auth,
+        QUERY_KEY.bookmarkIds,
+      ]);
+      const ids = raw?.bookmarkedPostIds ?? [];
+      const isBookmarked = ids.includes(postId.toString());
+
+      queryClient.setQueryData([QUERY_KEY.auth, QUERY_KEY.bookmarkIds], {
+        bookmarkedPostIds: isBookmarked
+          ? ids.filter((id) => id !== postId.toString())
+          : [...ids, postId.toString()],
+      });
+
+      return { previousRaw: raw };
+    },
+    // 롤백
+    onError: (_, __, context) => {
+      if (context?.previousRaw) {
+        queryClient.setQueryData(
+          [QUERY_KEY.auth, QUERY_KEY.bookmarkIds],
+          context.previousRaw,
+        );
+      }
+    },
   });
 }
