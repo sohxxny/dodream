@@ -87,10 +87,8 @@ export type RecommendedPostContentType = {
   postId: bigint;
   title: string;
   projectType: ProjectType;
-  activityMode: ActivityModeType;
   deadlineAt: string;
-  similarity: number;
-  fields: string[];
+  matchReasons: RecommendType[];
 };
 
 /** 모집글 생성 응답 타입 */
@@ -154,6 +152,13 @@ export type MyPostRecommendedUserProfileType = {
   roles: string[];
   tags: string[];
 };
+
+/** 추천 이유 타입 */
+export type RecommendType =
+  | 'MATCHING_ROLE'
+  | 'MATCHING_TECH'
+  | 'MATCHING_MODE'
+  | 'MATCHING_FIELD';
 
 /** 내가 북마크한 글 목록 타입 */
 export type MyBookmarkedPostType = Omit<
