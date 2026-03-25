@@ -148,9 +148,8 @@ export type MyPostRecommendedUserProfileType = {
   nickname: string;
   experience: string;
   profileImageCode: number;
-  interestKeywords: string[];
   roles: string[];
-  tags: string[];
+  matchReasons: RecommendType[];
 };
 
 /** 추천 이유 타입 */
