@@ -14,7 +14,7 @@ interface RecruitmentUserRowProps {
   role: string;
   actions?: React.ReactNode;
   href?: string;
-  matchReasons: RecommendType[];
+  matchReasons?: RecommendType[];
 }
 
 export default function RecruitmentUserRow({
