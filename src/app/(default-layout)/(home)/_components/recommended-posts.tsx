@@ -40,7 +40,7 @@ export default function RecommendedPosts({
         <Skeleton
           count={4}
           listClassName="grid grid-cols-4 gap-x-7"
-          itemClassName="h-39.25"
+          itemClassName="h-[134px]"
         />
       ) : !posts || posts.posts.length === 0 ? (
         <p className="mt-9 mb-22.75 body-lg-medium text-center">
