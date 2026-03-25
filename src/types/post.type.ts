@@ -27,7 +27,6 @@ export type PostContentType = {
   status: string;
   activityMode: string;
   createdAt: string;
-  isBookmarked: boolean;
 };
 
 /** 게시글 컨텐츠 타입 / 게시글 상세 타입 */
@@ -165,6 +164,10 @@ export type MyBookmarkedPostType = Omit<
 };
 export type GetMyBookmarkedPostsResponseType = PaginationInfo & {
   content: MyBookmarkedPostType[];
+};
+
+export type BookmarkIdsType = {
+  bookmarkedPostIds: string[];
 };
 
 export type ProjectType = 'PROJECT' | 'STUDY';

@@ -16,6 +16,7 @@ export const QUERY_KEY = {
 
   /** 북마크 관련 */
   myBookmarkedPosts: 'myBookmarkedPosts',
+  bookmarkIds: 'bookmarkIds',
 
   /** 내 참여 내역 관련 */
   myAppliedPosts: 'myAppliedPosts',
