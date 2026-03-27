@@ -2,6 +2,7 @@
 
 import BookmarkIcon from '@/assets/icons/bookmark/24.svg';
 import useToggleBookmark from '@/hooks/bookmark/use-toggle-bookmark';
+import { useGetProfileExists } from '@/hooks/profile/use-get-profile';
 
 interface PostBookmarkButtonProps {
   postId: bigint;
@@ -18,12 +19,13 @@ export default function PostBookmarkButton({
   isBookmarked,
 }: PostBookmarkButtonProps) {
   const { mutate, isPending } = useToggleBookmark();
+  const { data: profileExists } = useGetProfileExists();
 
   const handleToggleBookmark = (event: React.MouseEvent) => {
     event.stopPropagation();
     event.preventDefault();
 
-    if (isPending) {
+    if (!profileExists?.exists || isPending) {
       return;
     }
     mutate(postId);

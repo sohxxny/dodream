@@ -23,6 +23,8 @@ export default function useGetMyBookmarkedPosts(
 
 /** 특정 게시물의 북마크 여부 조회 */
 export function useGetMyBookmarksByPostId(postIds: string[]) {
+  const { data: profileExists, isSuccess } = useGetProfileExists();
+
   const raw = queryClient.getQueryData<{ bookmarkedPostIds: string[] }>([
     QUERY_KEY.auth,
     QUERY_KEY.bookmarkIds,
@@ -34,7 +36,8 @@ export function useGetMyBookmarksByPostId(postIds: string[]) {
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.bookmarkIds],
     queryFn: () => clientApis.bookmarks.getMyBookmarksByPostId(missingIds),
-    enabled: missingIds.length > 0,
+    enabled:
+      isSuccess && profileExists.exists === true && missingIds.length > 0,
     select: (data) => new Set([...existing, ...data.bookmarkedPostIds]),
     staleTime: Infinity, // 캐시 유지
   });
