@@ -5,8 +5,8 @@ import Pagination from '@/components/commons/pagination';
 import { Tabs } from '@/components/commons/tabs';
 import MyPageHeader from '@/components/features/mypage/commons/mypage-header';
 import { PROJECT_MAP, PROJECT_TAB_VALUES } from '@/constants/post.constant';
+import useGetMyBookmarkedPosts from '@/hooks/bookmark/use-get-my-bookmarked-posts';
 import useQueryParams from '@/hooks/filter/use-query-params';
-import useGetMyBookmarkedPosts from '@/hooks/my/use-get-my-bookmarked-posts';
 import type { ProjectType } from '@/types/post.type';
 import { getValidPage } from '@/utils/filter.util';
 

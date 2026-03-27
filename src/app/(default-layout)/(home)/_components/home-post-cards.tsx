@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import DefaultPostCard from '@/components/features/post/post-card/presets/default-post-card';
-import { useGetMyBookmarksByPostId } from '@/hooks/my/use-get-my-bookmarked-posts';
+import { useGetMyBookmarksByPostId } from '@/hooks/bookmark/use-get-my-bookmarked-posts';
 import type {
   PostContentType,
   PostStatusType,
