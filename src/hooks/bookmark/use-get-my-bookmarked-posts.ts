@@ -1,9 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { queryClient } from '@/lib/query-client';
 import { clientApis } from '@/services/client.api';
 import type { ProjectType } from '@/types/post.type';
 import { useGetProfileExists } from '../profile/use-get-profile';
+
+const BOOKMARK_IDS_KEY = [QUERY_KEY.auth, QUERY_KEY.bookmarkIds];
 
 /** 마이페이지 북마크 내역 조회 */
 export default function useGetMyBookmarkedPosts(
@@ -24,21 +27,50 @@ export default function useGetMyBookmarkedPosts(
 /** 특정 게시물의 북마크 여부 조회 */
 export function useGetMyBookmarksByPostId(postIds: string[]) {
   const { data: profileExists, isSuccess } = useGetProfileExists();
+  const enabled = isSuccess && profileExists.exists === true;
 
-  const raw = queryClient.getQueryData<{ bookmarkedPostIds: string[] }>([
-    QUERY_KEY.auth,
-    QUERY_KEY.bookmarkIds,
-  ]);
-  const existing = raw?.bookmarkedPostIds ?? [];
+  useEffect(() => {
+    let cancelled = false;
 
-  const missingIds = postIds.filter((id) => !existing.includes(id));
+    async function fetchMissing() {
+      if (!enabled || postIds.length === 0) return;
+
+      const cached = queryClient.getQueryData<{ bookmarkedPostIds: string[] }>(
+        BOOKMARK_IDS_KEY,
+      );
+      const existing = cached?.bookmarkedPostIds ?? [];
+      const missingIds = postIds.filter((id) => !existing.includes(id));
+
+      if (missingIds.length === 0) return;
+
+      const data =
+        await clientApis.bookmarks.getMyBookmarksByPostId(missingIds);
+
+      if (cancelled) return;
+
+      queryClient.setQueryData(
+        BOOKMARK_IDS_KEY,
+        (old: { bookmarkedPostIds: string[] } | undefined) => ({
+          bookmarkedPostIds: [
+            ...(old?.bookmarkedPostIds ?? []),
+            ...data.bookmarkedPostIds,
+          ],
+        }),
+      );
+    }
+
+    fetchMissing();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [postIds, enabled]);
 
   return useQuery({
-    queryKey: [QUERY_KEY.auth, QUERY_KEY.bookmarkIds],
-    queryFn: () => clientApis.bookmarks.getMyBookmarksByPostId(missingIds),
-    enabled:
-      isSuccess && profileExists.exists === true && missingIds.length > 0,
-    select: (data) => new Set([...existing, ...data.bookmarkedPostIds]),
-    staleTime: Infinity, // 캐시 유지
+    queryKey: BOOKMARK_IDS_KEY,
+    queryFn: () => ({ bookmarkedPostIds: [] as string[] }),
+    enabled,
+    staleTime: Infinity,
+    select: (data) => new Set(data.bookmarkedPostIds),
   });
 }
