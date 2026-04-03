@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 import DefaultPostCard from '@/components/features/post/post-card/presets/default-post-card';
 import { useGetMyBookmarksByPostId } from '@/hooks/bookmark/use-get-my-bookmarked-posts';
 import type {
@@ -12,10 +12,7 @@ interface HomePostCardsProps {
 }
 
 function HomePostCards({ posts }: HomePostCardsProps) {
-  const postIds = useMemo(
-    () => posts.map((post) => BigInt(post.id).toString()),
-    [posts],
-  );
+  const postIds = posts.map((post) => BigInt(post.id).toString());
   const { data: bookmarkIds = new Set() } = useGetMyBookmarksByPostId(postIds);
 
   return (
