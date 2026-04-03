@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { Suspense } from 'react';
 import BannerButton from './banner-button';
 
 export default function Banner({ profileExists }: { profileExists: boolean }) {
@@ -38,9 +37,7 @@ export default function Banner({ profileExists }: { profileExists: boolean }) {
         )}
       </div>
 
-      <Suspense>
-        <BannerButton profileExists={profileExists} />
-      </Suspense>
+      <BannerButton profileExists={profileExists} />
     </aside>
   );
 }
