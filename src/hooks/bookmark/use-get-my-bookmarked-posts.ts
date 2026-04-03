@@ -39,7 +39,8 @@ export function useGetMyBookmarksByPostId(postIds: string[]) {
         BOOKMARK_IDS_KEY,
       );
       const existing = cached?.bookmarkedPostIds ?? [];
-      const missingIds = postIds.filter((id) => !existing.includes(id));
+      const existingSet = new Set(existing);
+      const missingIds = postIds.filter((id) => !existingSet.has(id));
 
       if (missingIds.length === 0) return;
 
