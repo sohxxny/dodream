@@ -3,12 +3,10 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { PRESERVE_PARAMS } from '@/constants/filter.constant';
 import {
-  INTERESTS,
   INTERESTS_ID_MAP,
-  ROLE,
   TECH_STACK_ID_MAP,
 } from '@/constants/profile.constant';
-import { getValidPage } from '@/utils/filter.util';
+import { buildApiQueryString } from '@/utils/filter.util';
 
 /** 파라미터 관리 훅 */
 export default function useQueryParams() {
@@ -132,25 +130,7 @@ export default function useQueryParams() {
   );
 
   /** 쿼리 스트링 생성 */
-  const getApiQueryString = () => {
-    const params = new URLSearchParams();
-
-    searchParams.forEach((value, key) => {
-      if (key === 'roles') {
-        const label = ROLE[value as keyof typeof ROLE];
-        if (label) params.append(key, label);
-      } else if (key === 'interests') {
-        const label = INTERESTS[value as keyof typeof INTERESTS];
-        if (label) params.append(key, label);
-      } else if (key === 'page') {
-        params.append(key, String(getValidPage(value) - 1));
-      } else {
-        params.append(key, value);
-      }
-    });
-
-    return params.toString();
-  };
+  const getApiQueryString = () => buildApiQueryString(searchParams);
 
   return {
     getParam,

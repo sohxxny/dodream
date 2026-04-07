@@ -1,3 +1,5 @@
+'use client';
+
 import { DropdownMenu } from 'radix-ui';
 import BellIcon from '@/assets/icons/bell/20.svg';
 import NotificationRows from './notification-rows';

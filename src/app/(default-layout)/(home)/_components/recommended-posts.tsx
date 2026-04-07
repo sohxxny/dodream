@@ -10,7 +10,7 @@ import type {
   RecommendedPostContentType,
 } from '@/types/post.type';
 import { formatDate } from '@/utils/date.util';
-import RecommendTypes from './recommend-types';
+import RecommendTags from './recommend-tags';
 
 export default function RecommendedPosts({
   profileExists,
@@ -40,7 +40,7 @@ export default function RecommendedPosts({
         <Skeleton
           count={4}
           listClassName="grid grid-cols-4 gap-x-7"
-          itemClassName="h-39.25"
+          itemClassName="h-[134px]"
         />
       ) : !posts || posts.posts.length === 0 ? (
         <p className="mt-9 mb-22.75 body-lg-medium text-center">
@@ -69,7 +69,7 @@ function RecommendedPost({ post }: RecommendedPostProps) {
     <li className="flex-1 border border-border-primary rounded-lg px-6 py-5 ">
       <Link href={`/post/${BigInt(post.postId)}`}>
         <article className="flex flex-col h-full gap-5">
-          <RecommendTypes labels={post.fields} />
+          <RecommendTags labels={post.matchReasons} />
           <h3 className="heading-sm line-clamp-2">{post.title}</h3>
           <div className="flex gap-3 text-subtle flex-1 items-end">
             <span>마감</span>

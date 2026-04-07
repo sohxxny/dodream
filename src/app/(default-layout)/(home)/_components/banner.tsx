@@ -1,27 +1,27 @@
-'use client';
-
-import Link from 'next/link';
-import { overlay } from 'overlay-kit';
-import LoginModal from '@/app/auth/_components/login-modal';
+import Image from 'next/image';
+import BannerButton from './banner-button';
 
 export default function Banner({ profileExists }: { profileExists: boolean }) {
-  const handleLogin = () => {
-    overlay.open(({ isOpen, close }) => (
-      <LoginModal isOpen={isOpen} onClose={close} />
-    ));
-  };
-
-  const bgImage =
-    profileExists === true
-      ? "bg-[url('/banner/authenticated.png')]"
-      : "bg-[url('/banner/unauthenticated.png')]";
-
   return (
     <aside
-      className={`col-span-12 flex flex-col justify-between relative h-51 shadow-card bg-white border border-border-primary rounded-lg overflow-hidden ${bgImage} bg-cover`}
+      className="col-span-12 flex flex-col justify-between relative h-51 shadow-card bg-white border border-border-primary rounded-lg overflow-hidden"
       aria-labelledby="banner-heading"
     >
-      <div className="mt-8 ml-9">
+      <Image
+        src={
+          profileExists
+            ? '/banner/authenticated.png'
+            : '/banner/unauthenticated.png'
+        }
+        alt="banner"
+        className="object-cover"
+        fill
+        preload
+        sizes="100vw"
+        fetchPriority="high"
+      />
+
+      <div className="relative z-10 mt-8 ml-9">
         <h2 className="heading-lg w-81.5" id="banner-heading">
           {profileExists
             ? '모집글을 작성하고 모집글과 꼭 맞는 AI 지원자 추천을 경험해 보세요.'
@@ -37,22 +37,7 @@ export default function Banner({ profileExists }: { profileExists: boolean }) {
         )}
       </div>
 
-      {profileExists ? (
-        <Link
-          href="/posts/new"
-          className="bg-brand text-text-on-brand mb-8 ml-9 rounded-md w-fit px-4 py-2 body-md-medium"
-        >
-          모집글 작성하기
-        </Link>
-      ) : (
-        <button
-          type="button"
-          onClick={handleLogin}
-          className="bg-brand text-text-on-brand mb-8 ml-9 rounded-md w-fit px-4 py-2 body-md-medium"
-        >
-          로그인하고 AI 추천 받아보기
-        </button>
-      )}
+      <BannerButton profileExists={profileExists} />
     </aside>
   );
 }

@@ -1,6 +1,8 @@
 import Link from 'next/link';
+import RecommendTags from '@/app/(default-layout)/(home)/_components/recommend-tags';
 import ProfileImage from '@/components/commons/profile-image';
 import { EXPERIENCE } from '@/constants/profile.constant';
+import type { RecommendType } from '@/types/post.type';
 import { parseExperienceValue } from '@/utils/profile.util';
 
 interface RecruitmentUserRowProps {
@@ -10,9 +12,9 @@ interface RecruitmentUserRowProps {
   profileImageCode: number;
   experience: string;
   role: string;
-  tags?: string[];
   actions?: React.ReactNode;
   href?: string;
+  matchReasons?: RecommendType[];
 }
 
 export default function RecruitmentUserRow({
@@ -20,9 +22,9 @@ export default function RecruitmentUserRow({
   profileImageCode,
   experience,
   role,
-  tags,
   actions,
   href,
+  matchReasons,
 }: RecruitmentUserRowProps) {
   const InnerContent = (
     <>
@@ -40,16 +42,9 @@ export default function RecruitmentUserRow({
         </div>
       </div>
 
-      {tags && (
+      {matchReasons && (
         <div className="col-span-4 flex items-center gap-2">
-          {tags.map((tag) => (
-            <div
-              key={tag}
-              className="bg-button-ai py-1 px-3 rounded-md body-md-medium text-brand"
-            >
-              {tag}
-            </div>
-          ))}
+          <RecommendTags labels={matchReasons} />
         </div>
       )}
     </>

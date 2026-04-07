@@ -2,6 +2,7 @@ import type {
   DurationType,
   HomeProjectType,
   ProjectType,
+  RecommendType,
 } from '@/types/post.type';
 
 /** 기간 매핑 객체 */
@@ -38,3 +39,10 @@ export const HOME_PROJECT_MAP: Record<HomeProjectType, string> = {
 };
 
 export const HOME_PROJECT_TAB_VALUES = Object.keys(HOME_PROJECT_MAP);
+
+export const RECOMMEND_TYPE_LABEL: Record<RecommendType, string> = {
+  MATCHING_ROLE: '내직군모집중',
+  MATCHING_TECH: '나와맞는기술스택',
+  MATCHING_MODE: '나와맞는활동방식',
+  MATCHING_FIELD: '선호하는분야',
+};

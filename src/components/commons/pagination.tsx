@@ -74,6 +74,7 @@ export default function Pagination({
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
         className="w-8 h-8 flex justify-center items-center"
+        aria-label="이전 페이지"
       >
         <ArrowLeft className={clsx(currentPage === 1 && 'text-icon-disable')} />
       </button>
@@ -113,6 +114,7 @@ export default function Pagination({
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         className="w-8 h-8 flex justify-center items-center"
+        aria-label="다음 페이지"
       >
         <ArrowRight
           className={clsx(currentPage === totalPages && 'text-icon-disable')}

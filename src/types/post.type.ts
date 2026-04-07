@@ -27,7 +27,6 @@ export type PostContentType = {
   status: string;
   activityMode: string;
   createdAt: string;
-  isBookmarked: boolean;
 };
 
 /** 게시글 컨텐츠 타입 / 게시글 상세 타입 */
@@ -88,10 +87,8 @@ export type RecommendedPostContentType = {
   postId: bigint;
   title: string;
   projectType: ProjectType;
-  activityMode: ActivityModeType;
   deadlineAt: string;
-  similarity: number;
-  fields: string[];
+  matchReasons: RecommendType[];
 };
 
 /** 모집글 생성 응답 타입 */
@@ -151,10 +148,16 @@ export type MyPostRecommendedUserProfileType = {
   nickname: string;
   experience: string;
   profileImageCode: number;
-  interestKeywords: string[];
   roles: string[];
-  tags: string[];
+  matchReasons: RecommendType[];
 };
+
+/** 추천 이유 타입 */
+export type RecommendType =
+  | 'MATCHING_ROLE'
+  | 'MATCHING_TECH'
+  | 'MATCHING_MODE'
+  | 'MATCHING_FIELD';
 
 /** 내가 북마크한 글 목록 타입 */
 export type MyBookmarkedPostType = Omit<
@@ -165,6 +168,10 @@ export type MyBookmarkedPostType = Omit<
 };
 export type GetMyBookmarkedPostsResponseType = PaginationInfo & {
   content: MyBookmarkedPostType[];
+};
+
+export type BookmarkIdsType = {
+  bookmarkedPostIds: string[];
 };
 
 export type ProjectType = 'PROJECT' | 'STUDY';
