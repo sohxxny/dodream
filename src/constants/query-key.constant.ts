@@ -11,7 +11,6 @@ export const QUERY_KEY = {
   profile: 'profile',
   profileSettings: 'profileSettings',
   aiPost: 'aiPost',
-  canApply: 'canApply',
   postDetail: 'postDetail',
 
   /** 북마크 관련 */

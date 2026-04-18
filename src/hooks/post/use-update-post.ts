@@ -1,10 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { queryClient } from '@/lib/query-client';
 import type { PostUpdateFormData } from '@/schemas/post.schema';
 import { clientApis } from '@/services/client.api';
 
 export default function useUpdatePost() {
+  const router = useRouter();
+
   return useMutation({
     mutationFn: ({
       postId,
@@ -24,6 +27,7 @@ export default function useUpdatePost() {
           variables.postId.toString(),
         ],
       });
+      router.refresh();
     },
   });
 }

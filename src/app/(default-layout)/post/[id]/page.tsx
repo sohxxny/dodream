@@ -49,10 +49,7 @@ export default async function PostDetailPage({ params }: PageProps) {
             ) : (
               <>
                 {/* 북마크 버튼 */}
-                <PostBookmarkButton
-                  isBookmarked={postData.isBookmarked}
-                  postId={BigInt(postData.id)}
-                />
+                <PostBookmarkButton postId={BigInt(postData.id)} />
                 {/* 링크 복사 버튼 */}
                 <PostLinkButton />
               </>

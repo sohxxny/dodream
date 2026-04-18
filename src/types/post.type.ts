@@ -52,7 +52,6 @@ export type PostDetailType = {
     headcount: number;
   }[];
   owner: boolean;
-  isBookmarked: boolean;
 };
 
 /** 상세 페이지 멤버 내역 */

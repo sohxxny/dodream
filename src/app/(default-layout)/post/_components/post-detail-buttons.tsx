@@ -20,8 +20,6 @@ export default function PostDetailButtons({
 }: PostDetailButtonsProps) {
   const isClosed = new Date(postData.deadlineDate) < new Date();
 
-  if (!postData) return null;
-
   // 작성자인 경우: 마감일만 표시
   if (postData.owner) {
     return (
