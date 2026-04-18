@@ -1,13 +1,13 @@
 'use client';
 
 import ChatButton from '@/components/features/post/post-card/buttons/chat-button';
-import { useGetProfileExists } from '@/hooks/profile/use-get-profile';
 import type { PostDetailType } from '@/types/post.type';
 import { formatDeadlineAt } from '@/utils/date.util';
 import PostActionButton from './post-action-button';
 
 interface PostDetailButtonsProps {
   postData: PostDetailType;
+  profileExists: { exists: boolean };
 }
 
 /**
@@ -16,8 +16,8 @@ interface PostDetailButtonsProps {
  */
 export default function PostDetailButtons({
   postData,
+  profileExists,
 }: PostDetailButtonsProps) {
-  const { data: profileExists } = useGetProfileExists();
   const isClosed = new Date(postData.deadlineDate) < new Date();
 
   if (!postData) return null;

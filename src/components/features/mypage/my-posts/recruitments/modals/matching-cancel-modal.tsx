@@ -19,7 +19,6 @@ interface MatchingCancelModalProps {
   nickname: string;
   postId: bigint;
   matchingId: bigint;
-  matchedAt: Date;
 }
 
 export default function MatchingCancelModal({
@@ -28,7 +27,6 @@ export default function MatchingCancelModal({
   nickname,
   postId,
   matchingId,
-  matchedAt,
 }: MatchingCancelModalProps) {
   const [selectedCause, setSelectedCause] =
     useState<MatchingCancelReasonCode | null>(null);

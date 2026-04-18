@@ -19,7 +19,10 @@ export default async function PostDetailPage({ params }: PageProps) {
   const { id } = await params;
   const postId = BigInt(id);
 
-  const postData = await serverApis.posts.getPostDetail(postId);
+  const [postData, profileExists] = await Promise.all([
+    serverApis.posts.getPostDetail(postId),
+    serverApis.profile.getProfileExists(),
+  ]);
 
   return (
     <article className="grid grid-cols-12 gap-x-7">
@@ -85,7 +88,7 @@ export default async function PostDetailPage({ params }: PageProps) {
       {/* 버튼 */}
       <aside className="col-start-10 col-span-3 flex flex-col gap-7">
         {/* 버튼 그룹 */}
-        <PostDetailButtons postData={postData} />
+        <PostDetailButtons postData={postData} profileExists={profileExists} />
         {/* 모집중인 직군 */}
         <RecruitStatus roles={postData.roles} postId={postData.id} />
       </aside>

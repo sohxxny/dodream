@@ -13,7 +13,6 @@ interface MatchingCancelButtonProps
   ownerNickname: string;
   postId: bigint;
   matchingId: bigint;
-  matchedAt: Date;
 }
 
 /**
@@ -21,13 +20,11 @@ interface MatchingCancelButtonProps
  * @param ownerNickname - 모집글 작성자 닉네임
  * @param postId - 모집글 ID
  * @param matchingId - 매칭 ID
- * @param matchedAt - 매칭 시간
  */
 export default function MathcingCancelButton({
   ownerNickname,
   postId,
   matchingId,
-  matchedAt,
   ...props
 }: MatchingCancelButtonProps) {
   const handleOpenMatchingCancelModal = () => {
@@ -38,7 +35,6 @@ export default function MathcingCancelButton({
         nickname={ownerNickname}
         postId={postId}
         matchingId={matchingId}
-        matchedAt={matchedAt}
       />
     ));
   };

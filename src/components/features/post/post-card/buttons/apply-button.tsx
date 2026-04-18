@@ -4,12 +4,17 @@ import { isPast } from 'date-fns';
 import { overlay } from 'overlay-kit';
 import Button from '@/components/commons/buttons/button';
 import ApplyModal from '@/components/features/mypage/participations/modals/apply-modal';
-import { useGetPostDetail } from '@/hooks/post/use-get-posts';
-import { useGetProfileExists } from '@/hooks/profile/use-get-profile';
 import useToast from '@/hooks/use-toast';
+import type { PostStatusType } from '@/types/post.type';
 
 interface ApplyButtonProps {
   postId: bigint;
+  applicationId?: bigint;
+  matchedId?: bigint;
+  deadlineDate: string;
+  status: PostStatusType;
+  roles: string[];
+  profileExists?: { exists: boolean };
   variant?: 'default' | 'brand' | 'solid' | 'outline';
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
@@ -17,20 +22,22 @@ interface ApplyButtonProps {
 
 /**
  * 지원하기 버튼
- * @param postId - 지원할 모집글 id
+ * @param postData - 지원할 모집글 상세 정보
  */
 export default function ApplyButton({
   postId,
+  applicationId,
+  matchedId,
+  deadlineDate,
+  status,
+  roles,
+  profileExists,
   variant,
   size,
   className,
   ...props
 }: ApplyButtonProps) {
-  const { data: profileExists } = useGetProfileExists();
-  const { data: postData } = useGetPostDetail(BigInt(postId));
   const toast = useToast();
-
-  if (!postData) return null;
 
   /** 지원하기 */
   const handleOpenApplyModal = () => {
@@ -40,29 +47,26 @@ export default function ApplyButton({
       return;
     }
 
-    if (postData.applicationId) {
+    if (applicationId) {
       toast({ title: '이미 지원한 공고입니다' });
       return;
     }
 
-    if (postData.matchedId) {
+    if (matchedId) {
       toast({ title: '매칭이 취소된 공고는 다시 지원할 수 없습니다.' });
       return;
     }
 
     // 데드라인 날짜 이후일 경우 실패 처리
-    if (
-      isPast(new Date(postData.deadlineDate)) ||
-      postData.status === 'COMPLETED'
-    ) {
+    if (isPast(new Date(deadlineDate)) || status === 'COMPLETED') {
       toast({ title: '마감된 공고입니다.' });
       return;
     }
 
     overlay.open(({ isOpen, close }) => (
       <ApplyModal
-        postId={postData.id}
-        roles={postData.roles.map((role) => role.role)}
+        postId={postId}
+        roles={roles}
         isOpen={isOpen}
         onClose={close}
       />
@@ -74,10 +78,10 @@ export default function ApplyButton({
       onClick={handleOpenApplyModal}
       variant={variant}
       size={size}
-      disabled={postData.status === 'COMPLETED'}
+      disabled={status === 'COMPLETED'}
       {...props}
     >
-      {postData.status === 'RECRUITING' ? '지원하기' : '모집 마감'}
+      {status === 'RECRUITING' ? '지원하기' : '모집 마감'}
     </Button>
   );
 }

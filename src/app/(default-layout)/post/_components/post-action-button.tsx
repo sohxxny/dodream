@@ -8,9 +8,7 @@ import type { PostDetailType } from '@/types/post.type';
 interface PostActionButtonProps {
   postId: bigint;
   postData: PostDetailType;
-  profileExists?: {
-    exists: boolean;
-  };
+  profileExists: { exists: boolean };
 }
 
 /**
@@ -24,7 +22,19 @@ export default function PostActionButton({
 }: PostActionButtonProps) {
   // 비로그인 상태: 지원하기 버튼
   if (!profileExists?.exists) {
-    return <ApplyButton postId={postId} variant="brand" size="md" />;
+    return (
+      <ApplyButton
+        postId={postData.id}
+        applicationId={postData.applicationId}
+        matchedId={postData.matchedId}
+        deadlineDate={postData.deadlineDate}
+        status={postData.status}
+        roles={postData.roles.map((r) => r.role)}
+        profileExists={profileExists}
+        variant="brand"
+        size="md"
+      />
+    );
   }
 
   // 지원한 상태 (대기 중): 지원 취소 버튼
@@ -47,8 +57,6 @@ export default function PostActionButton({
         postId={postId}
         ownerNickname={postData.ownerNickname}
         matchingId={postData.matchedId}
-        // TODO: 매칭 시각 수정
-        matchedAt={new Date()}
         variant="brand"
         size="md"
       />
@@ -56,5 +64,17 @@ export default function PostActionButton({
   }
 
   // 지원 가능한 상태: 지원하기 버튼 (지원 가능/매칭 취소 상태)
-  return <ApplyButton postId={postId} variant="brand" size="md" />;
+  return (
+    <ApplyButton
+      postId={postData.id}
+      applicationId={postData.applicationId}
+      matchedId={postData.matchedId}
+      deadlineDate={postData.deadlineDate}
+      status={postData.status}
+      roles={postData.roles.map((r) => r.role)}
+      profileExists={profileExists}
+      variant="brand"
+      size="md"
+    />
+  );
 }
