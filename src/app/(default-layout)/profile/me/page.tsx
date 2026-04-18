@@ -1,15 +1,12 @@
-'use client';
-
 import Link from 'next/link';
 import ProfileContent from '@/components/features/profile/profile-content';
-import useGetUser from '@/hooks/auth/use-get-user';
-import { useGetProfile } from '@/hooks/profile/use-get-profile';
+import { serverApis } from '@/services/server.api';
 
-export default function ProfilePage() {
-  const { data: user } = useGetUser();
-  const { data: profile } = useGetProfile();
-
-  if (!profile || !user) return null;
+export default async function ProfilePage() {
+  const [user, profile] = await Promise.all([
+    serverApis.auth.getUser(),
+    serverApis.profile.getProfile(),
+  ]);
 
   return (
     <ProfileContent

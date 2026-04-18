@@ -1,4 +1,5 @@
-import ApplicantProfile from './_components/applicant-profile';
+import ProfileContent from '@/components/features/profile/profile-content';
+import { serverApis } from '@/services/server.api';
 
 interface ApplicantProfilePageProps {
   params: Promise<{
@@ -12,5 +13,23 @@ export default async function ApplicantProfilePage({
 }: ApplicantProfilePageProps) {
   const { userId, postId } = await params;
 
-  return <ApplicantProfile postId={BigInt(postId)} userId={BigInt(userId)} />;
+  const profile = await serverApis.profile.getMyPostApplicantProfile(
+    BigInt(postId),
+    BigInt(userId),
+  );
+
+  return (
+    <ProfileContent
+      userId={BigInt(userId)}
+      nickname={profile.nickname}
+      profileImage={profile.profileImageCode}
+      role={profile.roles[0].name}
+      experience={profile.experience}
+      introText={profile.introText}
+      interests={profile.interestKeywords}
+      activityMode={profile.activityMode}
+      profileUrls={profile.profileUrls}
+      techSkills={profile.techSkills.map((stack) => stack.name)}
+    />
+  );
 }

@@ -1,5 +1,3 @@
-'use client';
-
 import SuitcaseIcon from '@/assets/icons/suitcase/14.svg';
 import UsersIcon from '@/assets/icons/users/14.svg';
 import ProfileImage from '@/components/commons/profile-image';
@@ -53,6 +51,8 @@ export default function ProfileContent({
           code={profileImage}
           size={120}
           className="rounded-full bg-primary shrink-0 w-30 h-30"
+          fetchPriority="high"
+          priority
         />
         {controller}
       </section>

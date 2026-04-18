@@ -1,11 +1,13 @@
 import Image from 'next/image';
+import type { ComponentPropsWithoutRef } from 'react';
 
-interface ProfileImageProps {
-  src?: string | null | undefined;
+type NextImageProps = ComponentPropsWithoutRef<typeof Image>;
+
+interface ProfileImageProps
+  extends Omit<NextImageProps, 'src' | 'alt' | 'width' | 'height'> {
   code?: number | undefined;
   size: number;
   userName?: string;
-  className?: string;
 }
 
 /**
@@ -19,6 +21,7 @@ export default function ProfileImage({
   size,
   userName,
   className = '',
+  ...props
 }: ProfileImageProps) {
   return (
     <Image
@@ -28,6 +31,7 @@ export default function ProfileImage({
       height={size}
       style={{ width: size, height: size }}
       className={`bg-surface ${className}`}
+      {...props}
     />
   );
 }
