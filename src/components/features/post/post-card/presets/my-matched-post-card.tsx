@@ -57,7 +57,6 @@ export default function MyMatchedPostCard({
               ownerNickname={myMatchedPost.leaderName}
               postId={myMatchedPost.postId}
               matchingId={myMatchedPost.id}
-              matchedAt={myMatchedPost.matchedAt}
               variant="outline"
               size="md"
             />

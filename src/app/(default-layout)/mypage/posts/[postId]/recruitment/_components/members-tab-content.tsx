@@ -63,7 +63,6 @@ export default function MembersTabContent({ postId }: MembersTabContentProps) {
                             ownerNickname={user.nickname}
                             postId={BigInt(postId)}
                             matchingId={BigInt(user.matchedId)}
-                            matchedAt={new Date(user.createdAt)}
                             variant="outline"
                           />
                         </>

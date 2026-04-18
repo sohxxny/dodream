@@ -81,7 +81,7 @@ export default async function PostDetailPage({ params }: PageProps) {
           />
 
           {/* 추천 회원 */}
-          <RecommendedUsers postId={postData.id} />
+          <RecommendedUsers postId={postData.id} isOwner={postData.owner} />
         </div>
       </section>
 

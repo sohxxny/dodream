@@ -5,6 +5,7 @@ import { useState } from 'react';
 import ArrowDownIcon from '@/assets/icons/chevron-down/14.svg';
 import ArrowUpIcon from '@/assets/icons/chevron-up/14.svg';
 import ProfileImage from '@/components/commons/profile-image';
+import Skeleton from '@/components/commons/skeleton';
 import useGetPostMembers from '@/hooks/post/use-get-post-members';
 
 interface RecruitStatusProps {
@@ -24,7 +25,23 @@ export default function RecruitStatus({ postId, roles }: RecruitStatusProps) {
   const { data: postMembers } = useGetPostMembers(postId);
   const [visibleCount, setVisibleCount] = useState(3);
 
-  if (!postMembers) return null;
+  if (!postMembers)
+    return (
+      <div className="bg-surface shadow-card py-5 px-6 rounded-md">
+        <ul className="flex flex-col [&>li]:relative [&>li]:border-b [&>li]:border-border-primary [&>li:not(:first-child)]:pt-4 [&>li:not(:last-child)]:pb-4 [&>li:last-child]:border-none">
+          {roles.map((role) => (
+            <li key={role.role} className="flex items-center">
+              <span className="w-20.5 body-lg-medium">{role.role}</span>
+              <Skeleton
+                count={1}
+                listClassName="flex flex-1"
+                itemClassName="h-7 w-full"
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
 
   const shouldShowButton = roles.length > 3;
   const visibleRoles = roles.slice(0, visibleCount);
