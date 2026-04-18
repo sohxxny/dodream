@@ -35,7 +35,7 @@ export default function RecruitStatus({ postId, roles }: RecruitStatusProps) {
               <Skeleton
                 count={1}
                 listClassName="flex flex-1"
-                itemClassName="h-7 w-full"
+                itemClassName="h-8 w-full"
               />
             </li>
           ))}
@@ -66,7 +66,7 @@ export default function RecruitStatus({ postId, roles }: RecruitStatusProps) {
 
           return (
             <li key={roleInfo.role} className="flex items-center">
-              <span className="w-20.5 body-lg-medium @max-[50vw]/chatting:body-md-medium">
+              <span className="w-20.5 body-lg-medium @max-[50vw]/chatting:body-md-medium h-8 flex items-center">
                 {roleInfo.role}
               </span>
               <ul className="flex flex-row-reverse flex-1 justify-end [&>li]:relative [&>li:not(:last-child)]:-ml-3">
