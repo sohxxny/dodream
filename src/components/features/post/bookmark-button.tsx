@@ -1,28 +1,25 @@
 'use client';
 
-import { useMemo } from 'react';
 import BookmarkIcon from '@/assets/icons/bookmark/24.svg';
-import { useGetMyBookmarksByPostId } from '@/hooks/bookmark/use-get-my-bookmarked-posts';
 import useToggleBookmark from '@/hooks/bookmark/use-toggle-bookmark';
 import { useGetProfileExists } from '@/hooks/profile/use-get-profile';
 
-interface PostBookmarkButtonProps {
+interface BookmarkButtonProps {
   postId: bigint;
+  isBookmarked: boolean;
 }
 
 /**
- * 게시글 상세의 북마크 버튼 컴포넌트
+ * 북마크 버튼 컴포넌트
  * @param postId - 모집글 ID
+ * @param isBookmarked - 북마크 여부
  */
-export default function PostBookmarkButton({
+export default function BookmarkButton({
   postId,
-}: PostBookmarkButtonProps) {
-  const postIds = useMemo(() => [postId.toString()], [postId]);
-  const { data: bookmarkIds = new Set() } = useGetMyBookmarksByPostId(postIds);
+  isBookmarked,
+}: BookmarkButtonProps) {
   const { mutate, isPending } = useToggleBookmark();
   const { data: profileExists } = useGetProfileExists();
-
-  const isBookmarked = bookmarkIds.has(postId.toString());
 
   const handleToggleBookmark = (event: React.MouseEvent) => {
     event.stopPropagation();

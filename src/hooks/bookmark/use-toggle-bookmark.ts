@@ -26,17 +26,18 @@ export default function useToggleBookmark() {
     },
     // 낙관적 업데이트
     onMutate: (postId) => {
+      const id = BigInt(postId).toString(); // 통일
       const raw = queryClient.getQueryData<{ bookmarkedPostIds: string[] }>([
         QUERY_KEY.auth,
         QUERY_KEY.bookmarkIds,
       ]);
       const ids = raw?.bookmarkedPostIds ?? [];
-      const isBookmarked = ids.includes(postId.toString());
+      const isBookmarked = ids.includes(id);
 
       queryClient.setQueryData([QUERY_KEY.auth, QUERY_KEY.bookmarkIds], {
         bookmarkedPostIds: isBookmarked
-          ? ids.filter((id) => id !== postId.toString())
-          : [...ids, postId.toString()],
+          ? ids.filter((i) => i !== id)
+          : [...ids, id],
       });
 
       return { previousRaw: raw };

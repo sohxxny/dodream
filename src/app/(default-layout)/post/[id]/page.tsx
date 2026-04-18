@@ -1,12 +1,11 @@
+import { notFound } from 'next/navigation';
 import ProfileImage from '@/components/commons/profile-image';
 import { serverApis } from '@/services/server.api';
+import type { ErrorType } from '@/types/error.type';
 import { getRelativeTime } from '@/utils/date.util';
-import PostBookmarkButton from '../_components/post-bookmark-button';
 import PostContent from '../_components/post-content';
-import PostDeleteButton from '../_components/post-delete-button';
 import PostDetailButtons from '../_components/post-detail-buttons';
-import PostEditButton from '../_components/post-edit-button';
-import PostLinkButton from '../_components/post-link-button';
+import PostHeaderButtons from '../_components/post-header-buttons';
 import RecommendedUsers from '../_components/recommended-users';
 import RecruitInfo from '../_components/recruit-info';
 import RecruitStatus from '../_components/recruit-status';
@@ -20,7 +19,10 @@ export default async function PostDetailPage({ params }: PageProps) {
   const postId = BigInt(id);
 
   const [postData, profileExists] = await Promise.all([
-    serverApis.posts.getPostDetail(postId),
+    serverApis.posts.getPostDetail(postId).catch((e: ErrorType) => {
+      if (e.code === 404) notFound();
+      throw e;
+    }),
     serverApis.profile.getProfileExists(),
   ]);
 
@@ -38,23 +40,7 @@ export default async function PostDetailPage({ params }: PageProps) {
           <time className="text-subtle" dateTime={postData.deadlineDate}>
             {getRelativeTime(postData.createdAt)}
           </time>
-          <div className="flex ml-auto gap-7">
-            {postData.owner ? (
-              <>
-                {/* 모집글 수정 버튼 */}
-                <PostEditButton postId={postData.id} />
-                {/* 모집글 삭제 버튼 */}
-                <PostDeleteButton postId={postData.id} />
-              </>
-            ) : (
-              <>
-                {/* 북마크 버튼 */}
-                <PostBookmarkButton postId={BigInt(postData.id)} />
-                {/* 링크 복사 버튼 */}
-                <PostLinkButton />
-              </>
-            )}
-          </div>
+          <PostHeaderButtons postId={postData.id} isOwner={postData.owner} />
         </div>
 
         {/* 제목 */}

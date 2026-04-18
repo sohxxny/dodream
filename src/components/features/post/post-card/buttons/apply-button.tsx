@@ -22,7 +22,6 @@ interface ApplyButtonProps {
 
 /**
  * 지원하기 버튼
- * @param postData - 지원할 모집글 상세 정보
  */
 export default function ApplyButton({
   postId,

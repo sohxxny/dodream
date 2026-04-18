@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import React from 'react';
-import PostBookmarkButton from '@/app/(default-layout)/post/_components/post-bookmark-button';
 import ProfileImage from '@/components/commons/profile-image';
 import TechCategories from '@/components/commons/tech-categories';
+import BookmarkButton from '@/components/features/post/bookmark-button';
 import PostCardProjectType from '@/components/features/post/post-card/post-card-project-type';
 import PostCardRoles from '@/components/features/post/post-card/post-card-roles';
 import PostCardStatus from '@/components/features/post/post-card/post-card-status';
@@ -79,7 +79,7 @@ function Header({
       <div className="flex gap-3 items-center">
         <PostCardProjectType projectType={projectType} />
         {showBookmarkIcon && (
-          <PostBookmarkButton isBookmarked={isBookmarked} postId={postId} />
+          <BookmarkButton isBookmarked={isBookmarked} postId={postId} />
         )}
       </div>
     </header>
