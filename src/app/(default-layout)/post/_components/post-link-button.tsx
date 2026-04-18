@@ -23,8 +23,8 @@ export default function PostLinkButton() {
   };
 
   return (
-    <button type="button" onClick={handleCopyLink}>
-      <LinkIcon className="text-icon-light" />
+    <button type="button" aria-label="링크 복사" onClick={handleCopyLink}>
+      <LinkIcon className="text-icon-light" aria-hidden="true" />
     </button>
   );
 }

@@ -81,42 +81,37 @@ export default function RecruitInfo({
   return (
     <div className="flex flex-col gap-8">
       <h3 className="heading-lg">모집 요약</h3>
-      <dl className="flex flex-col gap-4 body-lg-medium">
-        <div className="flex">
-          <div className="flex flex-col gap-4 w-[282px]">
-            <RecruitInfoItem label="모집 유형">
-              {PROJECT_MAP[projectType]}
-            </RecruitInfoItem>
-            <RecruitInfoItem label="모집 마감">
-              <time>{formatDate(deadlineDate)}</time>
-            </RecruitInfoItem>
-            <RecruitInfoItem label="활동 방식">
-              {ACTIVITY_MODE[activityMode]}
-            </RecruitInfoItem>
-          </div>
-          <div className="flex flex-col gap-4 w-[282px]">
-            <RecruitInfoItem label="관심 분야">
-              <ul className="flex gap-4">
-                {interestKeywords.map((interest) => (
-                  <li key={interest}>{interest}</li>
-                ))}
-              </ul>
-            </RecruitInfoItem>
-            <RecruitInfoItem label="활동 기간">
-              {DURATION_LABELS[duration]}
-            </RecruitInfoItem>
-          </div>
-        </div>
-        <RecruitInfoItem label="기술 스택">
+      <dl className="grid grid-cols-[282px_282px] gap-4 body-lg-medium">
+        <RecruitInfoItem label="모집 유형">
+          {PROJECT_MAP[projectType]}
+        </RecruitInfoItem>
+        <RecruitInfoItem label="관심 분야">
+          <ul className="flex gap-4">
+            {interestKeywords.map((interest) => (
+              <li key={interest}>{interest}</li>
+            ))}
+          </ul>
+        </RecruitInfoItem>
+        <RecruitInfoItem label="모집 마감">
+          <time>{formatDate(deadlineDate)}</time>
+        </RecruitInfoItem>
+        <RecruitInfoItem label="활동 기간">
+          {DURATION_LABELS[duration]}
+        </RecruitInfoItem>
+        <RecruitInfoItem label="활동 방식">
+          {ACTIVITY_MODE[activityMode]}
+        </RecruitInfoItem>
+        <RecruitInfoItem label="기술 스택" className="col-span-2">
           <ul className="flex flex-wrap gap-3">
             {techStacks.map((stack) => (
-              <Image
-                key={stack}
-                src={`/logo/stacks/${TECH_STACK_MAP[stack as TechStackType]}/24.svg`}
-                alt={`${stack}`}
-                width={24}
-                height={24}
-              />
+              <li key={stack}>
+                <Image
+                  src={`/logo/stacks/${TECH_STACK_MAP[stack as TechStackType]}/24.svg`}
+                  alt={`${stack}`}
+                  width={24}
+                  height={24}
+                />
+              </li>
             ))}
           </ul>
         </RecruitInfoItem>
@@ -129,6 +124,7 @@ interface RecruitInfoItemProps {
   label: string;
   size?: 'sm' | 'md';
   children: React.ReactNode;
+  className?: string;
 }
 
 /**
@@ -140,10 +136,11 @@ function RecruitInfoItem({
   label,
   size = 'md',
   children,
+  className = '',
 }: RecruitInfoItemProps) {
   return (
-    <div className={cn('flex gap-7', size === 'sm' && 'gap-4')}>
-      <dt className="text-subtle w-[78px] shrink-0">{label}</dt>
+    <div className={cn('flex gap-7', size === 'sm' && 'gap-4', className)}>
+      <dt className="text-subtle w-19.5 shrink-0">{label}</dt>
       <dd>{children}</dd>
     </div>
   );
