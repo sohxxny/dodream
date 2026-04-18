@@ -16,7 +16,11 @@ export default function PostDeleteButton({ postId }: PostDeleteButtonProps) {
   };
 
   return (
-    <button type="button" onClick={handleOpenDeleteModal}>
+    <button
+      type="button"
+      onClick={handleOpenDeleteModal}
+      aria-label="모집글 삭제"
+    >
       <TrashIcon className="text-icon-light" />
     </button>
   );
