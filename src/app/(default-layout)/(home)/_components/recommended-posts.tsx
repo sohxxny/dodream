@@ -20,7 +20,7 @@ export default function RecommendedPosts({
   const [activePostType, setActivePostType] = useState<ProjectType>('PROJECT');
   const { data: posts, isPending } = useGetRecommendedPosts(activePostType);
 
-  if (profileExists !== true) return null;
+  if (!profileExists) return null;
 
   return (
     <section className="col-span-12 flex flex-col gap-8">

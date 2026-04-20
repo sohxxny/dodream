@@ -28,7 +28,10 @@ export default async function Home({ searchParams }: HomeProps) {
 
   // 프리패치
   const [profileExists] = await Promise.all([
-    serverApis.profile.getProfileExists(),
+    queryClient.fetchQuery({
+      queryKey: [QUERY_KEY.auth, QUERY_KEY.profileExists],
+      queryFn: () => serverApis.profile.getProfileExists(),
+    }),
     queryClient.prefetchQuery({
       queryKey: [QUERY_KEY.auth, QUERY_KEY.posts, query],
       queryFn: () => serverApis.posts.getPosts(query),
