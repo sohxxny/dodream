@@ -25,11 +25,12 @@ export default function RecruitStatus({ postId, roles }: RecruitStatusProps) {
   const { data: postMembers } = useGetPostMembers(postId);
   const [visibleCount, setVisibleCount] = useState(3);
 
-  if (!postMembers)
+  if (!postMembers) {
+    const skeletonRoles = roles.length > 3 ? roles.slice(0, 3) : roles;
     return (
       <div className="bg-surface shadow-card py-5 px-6 rounded-md">
         <ul className="flex flex-col [&>li]:relative [&>li]:border-b [&>li]:border-border-primary [&>li:not(:first-child)]:pt-4 [&>li:not(:last-child)]:pb-4 [&>li:last-child]:border-none">
-          {roles.map((role) => (
+          {skeletonRoles.map((role) => (
             <li key={role.role} className="flex items-center">
               <span className="w-20.5 body-lg-medium">{role.role}</span>
               <Skeleton
@@ -42,6 +43,7 @@ export default function RecruitStatus({ postId, roles }: RecruitStatusProps) {
         </ul>
       </div>
     );
+  }
 
   const shouldShowButton = roles.length > 3;
   const visibleRoles = roles.slice(0, visibleCount);
