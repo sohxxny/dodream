@@ -1,5 +1,4 @@
 import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import { ROLE } from '@/constants/profile.constant';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { queryClient } from '@/lib/query-client';
@@ -13,8 +12,6 @@ import {
 
 /** 프로필 업데이트 */
 export default function useUpdateProfile() {
-  const router = useRouter();
-
   return useMutation({
     mutationFn: (data: ProfileEditFormData) => {
       const requestData: UpdateProfileRequestType = {
@@ -43,7 +40,6 @@ export default function useUpdateProfile() {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.profile],
       });
-      router.refresh();
     },
   });
 }

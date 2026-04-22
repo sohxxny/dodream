@@ -1,5 +1,4 @@
 import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import { QUERY_KEY } from '@/constants/query-key.constant';
 import { queryClient } from '@/lib/query-client';
 import { clientApis } from '@/services/client.api';
@@ -12,8 +11,6 @@ type CancelMatchingVariables = {
 };
 
 export default function useCancelMatching(postId: bigint) {
-  const router = useRouter();
-
   return useMutation({
     mutationFn: ({
       matchingId,
@@ -35,7 +32,6 @@ export default function useCancelMatching(postId: bigint) {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.postMembers, BigInt(postId).toString()],
       });
-      router.refresh();
     },
   });
 }
