@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import AuthCallBackClient from './_components/auth-callback-client';
+import { serverApis } from '@/services/server.api';
 
 interface AuthCallBackPageProps {
   searchParams: Promise<Record<string, string>>;
@@ -19,13 +19,18 @@ export default async function AuthCallBackPage({
     redirect('/');
   }
 
-  // 리다이렉트 경로
   const redirectCookie = cookieStore.get('OAUTH2_FRONTEND_URL');
-  const redirectPath = redirectCookie?.value || null;
+  const redirectPath = redirectCookie?.value || '/';
 
-  return (
-    <div className="w-full h-screen">
-      <AuthCallBackClient redirectPath={redirectPath} />
-    </div>
-  );
+  const { exists } = await serverApis.profile.getProfileExists();
+
+  if (exists) {
+    redirect(redirectPath);
+  } else {
+    const createProfileUrl =
+      redirectPath !== '/'
+        ? `/create-profile?redirect=${encodeURIComponent(redirectPath)}`
+        : '/create-profile';
+    redirect(createProfileUrl);
+  }
 }
