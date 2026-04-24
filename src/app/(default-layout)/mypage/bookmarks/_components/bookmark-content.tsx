@@ -1,8 +1,8 @@
 'use client';
 
 import Pagination from '@/components/commons/pagination';
-import Skeleton from '@/components/commons/skeleton';
 import MyPageEmptyState from '@/components/features/mypage/commons/mypage-empty-state';
+import MyPagePostCardSkeleton from '@/components/features/mypage/commons/mypage-post-card-skeleton';
 import DefaultPostCard from '@/components/features/post/post-card/presets/default-post-card';
 import { PROJECT_MAP } from '@/constants/post.constant';
 import { useGetMyBookmarkedPosts } from '@/hooks/bookmark/use-get-my-bookmarked-posts';
@@ -30,13 +30,7 @@ export default function BookmarkContent({
   );
 
   if (isPending) {
-    return (
-      <Skeleton
-        count={4}
-        listClassName="grid grid-cols-2 gap-7"
-        itemClassName="h-[272px]"
-      />
-    );
+    return <MyPagePostCardSkeleton />;
   }
 
   if (!bookmarkedPosts) {

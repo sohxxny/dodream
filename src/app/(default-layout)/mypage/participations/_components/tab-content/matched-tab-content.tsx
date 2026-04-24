@@ -3,6 +3,7 @@
 import Pagination from '@/components/commons/pagination';
 import { Tabs } from '@/components/commons/tabs';
 import MyPageEmptyState from '@/components/features/mypage/commons/mypage-empty-state';
+import MyPagePostCardSkeleton from '@/components/features/mypage/commons/mypage-post-card-skeleton';
 import MyMatchedPostCard from '@/components/features/post/post-card/presets/my-matched-post-card';
 import useQueryParams from '@/hooks/filter/use-query-params';
 import useGetMatchedPosts from '@/hooks/post/use-get-matched-posts';
@@ -17,9 +18,24 @@ export default function MatchedTabContent({
   const { getParam, setParams } = useQueryParams();
   const currentPage = Number(getParam('page') ?? 1);
 
-  const { data: myMatchedPosts } = useGetMatchedPosts(currentPage - 1);
+  const { data: myMatchedPosts, isPending } = useGetMatchedPosts(
+    currentPage - 1,
+  );
 
-  if (!myMatchedPosts || myMatchedPosts.content.length === 0) {
+  if (isPending) {
+    return <MyPagePostCardSkeleton />;
+  }
+
+  if (!myMatchedPosts) {
+    return (
+      <MyPageEmptyState
+        title="데이터를 불러오지 못했습니다"
+        description="잠시 후 다시 시도해 주세요"
+      />
+    );
+  }
+
+  if (myMatchedPosts.content.length === 0) {
     return (
       <MyPageEmptyState
         title="매칭 내역이 없습니다."
