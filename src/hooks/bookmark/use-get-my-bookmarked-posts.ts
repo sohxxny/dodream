@@ -9,18 +9,15 @@ import { useGetProfileExists } from '../profile/use-get-profile';
 const BOOKMARK_IDS_KEY = [QUERY_KEY.auth, QUERY_KEY.bookmarkIds];
 
 /** 마이페이지 북마크 내역 조회 */
-export default function useGetMyBookmarkedPosts(
+export function useGetMyBookmarkedPosts(
   projectType: ProjectType,
   page: number,
   size?: number,
 ) {
-  const { data: profileExists, isSuccess } = useGetProfileExists();
-
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.myBookmarkedPosts, projectType, page],
     queryFn: () =>
       clientApis.bookmarks.getMyBookmarkedPosts(projectType, page, size),
-    enabled: isSuccess && profileExists.exists === true,
   });
 }
 
