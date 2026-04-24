@@ -6,5 +6,7 @@ export default function useGetMySuggestedPosts(page?: number, size?: number) {
   return useQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.mySuggestedPosts, page],
     queryFn: () => clientApis.my.getMySuggestedPosts(page, size),
+    staleTime: 2 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
   });
 }
