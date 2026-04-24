@@ -2,7 +2,6 @@
 
 import Button from '@/components/commons/buttons/button';
 import Pagination from '@/components/commons/pagination';
-import Skeleton from '@/components/commons/skeleton';
 import { Tabs } from '@/components/commons/tabs';
 import {
   HOME_PROJECT_MAP,
@@ -18,7 +17,7 @@ import HomePostCards from './home-post-cards';
 export default function HomePosts() {
   const { getParam, setParams, filterParams, getApiQueryString, clearParams } =
     useQueryParams();
-  const { data: posts, isPending } = useGetPosts(getApiQueryString());
+  const { data: posts } = useGetPosts(getApiQueryString());
 
   const activePostType = (getParam('type') as HomeProjectType) || 'ALL';
 
@@ -65,13 +64,7 @@ export default function HomePosts() {
       <HomeFilters />
 
       {/* 게시물 리스트 */}
-      {isPending || !posts ? (
-        <Skeleton
-          count={9}
-          listClassName="grid grid-cols-3 gap-7"
-          itemClassName="h-[272px]"
-        />
-      ) : posts.posts.content.length === 0 ? (
+      {!posts ? null : posts.posts.content.length === 0 ? (
         Object.entries(filterParams).length === 0 ? (
           <section
             className="flex flex-col gap-2 items-center justify-center body-lg-medium pt-9 pb-44"

@@ -32,7 +32,7 @@ export default async function PostDetailPage({ params }: PageProps) {
       throw e;
     });
 
-  await queryClient.prefetchQuery({
+  const profileExists = await queryClient.fetchQuery({
     queryKey: [QUERY_KEY.auth, QUERY_KEY.profileExists],
     queryFn: () => serverApis.profile.getProfileExists(),
   });
@@ -82,7 +82,10 @@ export default async function PostDetailPage({ params }: PageProps) {
 
         {/* 버튼 그룹, 모집 현황 */}
         <aside className="col-start-10 col-span-3 flex flex-col gap-7">
-          <PostDetailButtons postId={postData.id} />
+          <PostDetailButtons
+            postData={postData}
+            profileExists={profileExists}
+          />
           <RecruitStatus roles={postData.roles} postId={postData.id} />
         </aside>
       </article>
