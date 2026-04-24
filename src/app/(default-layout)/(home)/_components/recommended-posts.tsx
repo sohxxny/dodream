@@ -40,10 +40,10 @@ export default function RecommendedPosts({
         <Skeleton
           count={4}
           listClassName="grid grid-cols-4 gap-x-7"
-          itemClassName="h-[134px]"
+          itemClassName="h-40"
         />
       ) : !posts || posts.posts.length === 0 ? (
-        <p className="mt-9 mb-22.75 body-lg-medium text-center">
+        <p className="mt-9 mb-23.5 body-lg-medium text-center">
           AI 추천 내역이 없습니다
         </p>
       ) : (
@@ -66,7 +66,7 @@ interface RecommendedPostProps {
  */
 function RecommendedPost({ post }: RecommendedPostProps) {
   return (
-    <li className="flex-1 border border-border-primary rounded-lg px-6 py-5 ">
+    <li className="flex-1 border border-border-primary rounded-lg px-6 py-5 h-40">
       <Link href={`/post/${BigInt(post.postId)}`}>
         <article className="flex flex-col h-full gap-5">
           <RecommendTags labels={post.matchReasons} />
