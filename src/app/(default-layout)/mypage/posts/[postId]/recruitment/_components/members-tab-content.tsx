@@ -7,13 +7,18 @@ import UserActions from '@/components/features/mypage/my-posts/recruitments/user
 import ApplyDetailButton from '@/components/features/post/post-card/buttons/apply-detail-button';
 import MathcingCancelButton from '@/components/features/post/post-card/buttons/matching-cancel-button';
 import useGetPostMembers from '@/hooks/post/use-get-post-members';
+import RecruitmentTabSkeleton from './recruitment-tab-skeleton';
 
 interface MembersTabContentProps {
   postId: bigint;
 }
 
 export default function MembersTabContent({ postId }: MembersTabContentProps) {
-  const { data: users } = useGetPostMembers(BigInt(postId));
+  const { data: users, isPending } = useGetPostMembers(BigInt(postId));
+
+  if (isPending) {
+    return <RecruitmentTabSkeleton />;
+  }
 
   if (!users || users?.users.length === 0) {
     return <RecruitmentEmptyState tab="members" />;

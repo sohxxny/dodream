@@ -6,13 +6,18 @@ import RecruitmentUserRow from '@/components/features/mypage/my-posts/recruitmen
 import { RoleTabs } from '@/components/features/mypage/my-posts/recruitments/role-tabs';
 import UserActions from '@/components/features/mypage/my-posts/recruitments/user-actions';
 import useGetMyPostOffers from '@/hooks/my/use-get-my-post-offers';
+import RecruitmentTabSkeleton from './recruitment-tab-skeleton';
 
 interface OfferTabContentProps {
   postId: bigint;
 }
 
 export default function OfferTabContent({ postId }: OfferTabContentProps) {
-  const { data: offers } = useGetMyPostOffers(postId);
+  const { data: offers, isPending } = useGetMyPostOffers(postId);
+
+  if (isPending) {
+    return <RecruitmentTabSkeleton />;
+  }
 
   if (!offers || offers.users.length === 0) {
     return <RecruitmentEmptyState tab="offers" />;
