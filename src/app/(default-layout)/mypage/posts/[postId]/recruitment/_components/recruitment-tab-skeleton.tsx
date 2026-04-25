@@ -9,7 +9,7 @@ export default function RecruitmentTabSkeleton() {
         itemClassName="h-9 w-20 rounded-full"
       />
       <Skeleton
-        count={2}
+        count={3}
         listClassName="flex flex-col gap-3"
         itemClassName="h-14 w-full"
       />

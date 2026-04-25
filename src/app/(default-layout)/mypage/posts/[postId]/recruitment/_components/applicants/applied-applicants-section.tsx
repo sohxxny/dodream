@@ -2,14 +2,19 @@
 
 import DefaultTooltip from '@/components/commons/tooltip/default-tooltip';
 import useGenerateMyPostRecommendedApplicants from '@/hooks/my/use-generate-my-post-recommended-applicants';
-import useGetMyPostApplications from '@/hooks/my/use-get-my-post-applications';
 import useToast from '@/hooks/use-toast';
-import type { ApplicantRowUserType } from '@/types/my.type';
-import RecruitmentTabSkeleton from '../recruitment-tab-skeleton';
+import type {
+  ApplicantRowUserType,
+  MyPostApplicationsType,
+} from '@/types/my.type';
+import type { PostDetailType, PostMembersType } from '@/types/post.type';
 import ApplicantsRoleTabs from './applicants-role-tabs';
 
 interface AppliedApplicantsSectionProps {
   postId: bigint;
+  applications: MyPostApplicationsType;
+  postDetail: PostDetailType;
+  members: PostMembersType | undefined;
 }
 
 /**
@@ -17,9 +22,10 @@ interface AppliedApplicantsSectionProps {
  */
 export default function AppliedApplicantsSection({
   postId,
+  applications,
+  postDetail,
+  members,
 }: AppliedApplicantsSectionProps) {
-  const { data: applications, isPending: isApplicationsPending } =
-    useGetMyPostApplications(BigInt(postId));
   const toast = useToast();
 
   const {
@@ -27,17 +33,6 @@ export default function AppliedApplicantsSection({
     data: recommendedApplicants,
     isPending,
   } = useGenerateMyPostRecommendedApplicants(postId);
-
-  if (isApplicationsPending) {
-    return (
-      <div className="flex flex-col gap-6">
-        <h3 className="heading-sm text-primary">일반 지원자</h3>
-        <RecruitmentTabSkeleton />
-      </div>
-    );
-  }
-
-  if (!applications) return null;
 
   // 내가 제안하지 않은 지원자만 필터링
   const appliedApplicants = applications.users.filter(
@@ -121,6 +116,8 @@ export default function AppliedApplicantsSection({
       <h3 className="heading-sm text-primary">일반 지원자</h3>
       <ApplicantsRoleTabs
         postId={postId}
+        postDetail={postDetail}
+        members={members}
         users={allAppliedApplicants}
         emptyMessage="지원자가 없습니다"
         headerRight={

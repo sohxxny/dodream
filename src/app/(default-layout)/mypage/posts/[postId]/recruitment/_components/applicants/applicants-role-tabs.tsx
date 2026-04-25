@@ -5,12 +5,13 @@ import { RoleTabs } from '@/components/features/mypage/my-posts/recruitments/rol
 import RoleTabsHeader from '@/components/features/mypage/my-posts/recruitments/role-tabs-header';
 import UserActions from '@/components/features/mypage/my-posts/recruitments/user-actions';
 import ApplyDetailButton from '@/components/features/post/post-card/buttons/apply-detail-button';
-import useGetPostMembers from '@/hooks/post/use-get-post-members';
-import { useGetPostDetail } from '@/hooks/post/use-get-posts';
 import type { ApplicantRowUserType } from '@/types/my.type';
+import type { PostDetailType, PostMembersType } from '@/types/post.type';
 
 type ApplicantsRoleTabsProps = {
   postId: bigint;
+  postDetail: PostDetailType;
+  members: PostMembersType | undefined;
   users: ApplicantRowUserType[];
   headerRight?: React.ReactNode;
   emptyMessage: string;
@@ -18,13 +19,12 @@ type ApplicantsRoleTabsProps = {
 
 export default function ApplicantsRoleTabs({
   postId,
+  postDetail,
+  members,
   users,
   headerRight,
   emptyMessage,
 }: ApplicantsRoleTabsProps) {
-  const { data: posts } = useGetPostDetail(BigInt(postId));
-  const { data: members } = useGetPostMembers(BigInt(postId));
-
   // 각 역할별 현재 인원 수 계산
   const currentCounts = useMemo(() => {
     if (!members?.users) return {};
@@ -43,7 +43,7 @@ export default function ApplicantsRoleTabs({
 
   // 역할이 꽉 찼는지 확인
   const isRoleFull = (roleName: string) => {
-    const role = posts?.roles.find((r) => r.role === roleName);
+    const role = postDetail.roles.find((r) => r.role === roleName);
     if (!role) return false;
     return (currentCounts[roleName] || 0) >= role.headcount;
   };
@@ -53,15 +53,13 @@ export default function ApplicantsRoleTabs({
     return users.filter(({ role }) => role === roleName);
   };
 
-  if (!posts) return null;
-
   return (
-    <RoleTabs defaultValue={posts.roles[0].role}>
+    <RoleTabs defaultValue={postDetail.roles[0].role}>
       <RoleTabsHeader
-        roles={posts.roles.map((role) => role.role)}
+        roles={postDetail.roles.map((role) => role.role)}
         headerRight={headerRight}
       />
-      {posts.roles.map((role) => {
+      {postDetail.roles.map((role) => {
         const roleUsers = getUsersByRole(role.role);
 
         return (
@@ -88,7 +86,7 @@ export default function ApplicantsRoleTabs({
                         />
                         <ApplyAcceptButton
                           postId={BigInt(postId)}
-                          isRecruitCompleted={posts.status === 'COMPLETED'}
+                          isRecruitCompleted={postDetail.status === 'COMPLETED'}
                           isRoleFull={isRoleFull(user.role)}
                           applicationId={BigInt(user.applicationId)}
                         />
