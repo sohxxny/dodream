@@ -57,8 +57,8 @@ export type PostDetailType = {
 /** 상세 페이지 멤버 내역 */
 export type PostMembersType = {
   users: PostMemberUserType[];
-  nextCursor: 0;
-  hasNext: true;
+  nextCursor: null;
+  hasNext: false;
 };
 
 export type PostMemberUserType = {
