@@ -1,6 +1,5 @@
 import { PostCard } from '@/components/features/post/post-card';
 import RecruitmentButton from '@/components/features/post/post-card/buttons/recruitment-button';
-import { useGetProfile } from '@/hooks/profile/use-get-profile';
 import type { MyPostsContentType } from '@/types/my.type';
 import type { PostStatusType, ProjectType } from '@/types/post.type';
 import { getRelativeTime, isReviewAvailable } from '@/utils/date.util';
@@ -9,22 +8,25 @@ import ViewReviewButton from '../buttons/view-review-button';
 
 interface MyPostCardProps {
   post: MyPostsContentType;
+  nickname: string;
+  profileImageCode: number;
 }
 
-export default function MyPostCard({ post }: MyPostCardProps) {
-  const { data: profile } = useGetProfile();
+export default function MyPostCard({
+  post,
+  nickname,
+  profileImageCode,
+}: MyPostCardProps) {
   const reviewAvailable = isReviewAvailable(post.deadlineAt);
-
-  if (!profile) return null;
 
   return (
     <PostCard
       href={`/post/${BigInt(post.postId)}`}
-      imageCode={profile.profileImageCode}
+      imageCode={profileImageCode}
     >
       <PostCard.Header
         postId={post.postId}
-        nickname={profile?.nickname}
+        nickname={nickname}
         elapsedTime={getRelativeTime(post.createdAt)}
         projectType={post.projectType as ProjectType}
         isBookmarked={false}

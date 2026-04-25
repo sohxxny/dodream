@@ -8,6 +8,7 @@ import MyPostsEmptyState from '@/components/features/mypage/my-posts/my-posts-em
 import MyPostCard from '@/components/features/post/post-card/presets/my-post-card';
 import useQueryParams from '@/hooks/filter/use-query-params';
 import useGetMyPosts from '@/hooks/my/use-get-my-posts';
+import { useGetProfile } from '@/hooks/profile/use-get-profile';
 import type { ProjectType } from '@/types/post.type';
 import { getValidPage } from '@/utils/filter.util';
 
@@ -22,6 +23,7 @@ export default function MyPostsContent({
 }: MyPostsContentProps) {
   const { setParams } = useQueryParams();
   const { data: posts, isPending } = useGetMyPosts(projectType, page - 1);
+  const { data: profile } = useGetProfile();
 
   if (isPending) {
     return <MyPagePostCardSkeleton />;
@@ -53,9 +55,15 @@ export default function MyPostsContent({
         />
       }
     >
-      {posts.posts.map((post) => (
-        <MyPostCard key={post.postId} post={post} />
-      ))}
+      {profile &&
+        posts.posts.map((post) => (
+          <MyPostCard
+            key={post.postId}
+            post={post}
+            nickname={profile.nickname}
+            profileImageCode={profile.profileImageCode}
+          />
+        ))}
     </Tabs.Content>
   );
 }
