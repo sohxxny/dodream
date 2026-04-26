@@ -76,7 +76,7 @@ export default async function PostDetailPage({ params }: PageProps) {
             />
 
             {/* 글 작성자의 경우: 추천 회원 */}
-            <RecommendedUsers postId={postData.id} isOwner={postData.owner} />
+            {postData.owner && <RecommendedUsers postId={postData.id} />}
           </div>
         </section>
 
