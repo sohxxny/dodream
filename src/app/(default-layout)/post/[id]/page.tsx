@@ -22,20 +22,21 @@ export default async function PostDetailPage({ params }: PageProps) {
   const postId = BigInt(id);
   const queryClient = getQueryClient();
 
-  const postData = await queryClient
-    .fetchQuery({
-      queryKey: [QUERY_KEY.auth, QUERY_KEY.postDetail, postId.toString()],
-      queryFn: () => serverApis.posts.getPostDetail(postId),
-    })
-    .catch((e: ErrorType) => {
-      if (e.code === 404) notFound();
-      throw e;
-    });
-
-  const profileExists = await queryClient.fetchQuery({
-    queryKey: [QUERY_KEY.auth, QUERY_KEY.profileExists],
-    queryFn: () => serverApis.profile.getProfileExists(),
-  });
+  const [postData, profileExists] = await Promise.all([
+    queryClient
+      .fetchQuery({
+        queryKey: [QUERY_KEY.auth, QUERY_KEY.postDetail, postId.toString()],
+        queryFn: () => serverApis.posts.getPostDetail(postId),
+      })
+      .catch((e: ErrorType) => {
+        if (e.code === 404) notFound();
+        throw e;
+      }),
+    queryClient.fetchQuery({
+      queryKey: [QUERY_KEY.auth, QUERY_KEY.profileExists],
+      queryFn: () => serverApis.profile.getProfileExists(),
+    }),
+  ]);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
