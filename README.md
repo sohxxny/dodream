@@ -1,6 +1,6 @@
 ## 📢 프로젝트 개요
 
-![두드림 브로셔](https://github.com/user-attachments/assets/6221dfa6-56e1-4c1c-88a1-727b58a20d2c)
+![두드림 브로셔](https://github.com/user-attachments/assets/99eaca38-14b0-4565-a02f-7b7b01e1b627)
 
 ### 📋 프로젝트 소개
 
