@@ -85,7 +85,7 @@ Modal.Content = ({
             'w-modal-xl': size === 'xl',
           },
         ),
-        className, // ✅ twMerge 안에서 나중에 전달 = 우선순위 높음
+        className,
       )}
     >
       {children}
