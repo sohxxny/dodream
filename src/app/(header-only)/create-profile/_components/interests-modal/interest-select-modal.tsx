@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
-import useQueryParams from '@/hooks/filter/use-query-params';
 import InterestTabs from './interest-tabs';
 import InterestTags from './interest-tags';
 
 interface InterestSelectModalProps {
   isOpen: boolean;
   onClose: () => void;
-  isFilter?: boolean;
   initialInterests: number[];
   onSave?: (interests: number[]) => void;
   maxCount?: number;
@@ -21,33 +19,21 @@ interface InterestSelectModalProps {
 export default function InterestSelectModal({
   isOpen,
   onClose,
-  isFilter = false,
   initialInterests,
   onSave,
   maxCount = 5,
   tagVariant = 'dark',
 }: InterestSelectModalProps) {
   const [interests, setInterests] = useState<number[]>(initialInterests);
-  const { setParams } = useQueryParams();
 
-  /**
-   * 관심 분야 토글 함수
-   * @param interest - 관심 분야
-   */
   const toggleInterests = (interestId: number) => {
     const newInterests = interests.includes(interestId)
       ? interests.filter((id) => id !== interestId)
-      : isFilter
-        ? [...interests, interestId]
-        : interests.length >= maxCount
-          ? interests
-          : [...interests, interestId];
+      : interests.length >= maxCount
+        ? interests
+        : [...interests, interestId];
 
     setInterests(newInterests);
-
-    if (isFilter) {
-      setParams({ interests: newInterests.length > 0 ? newInterests : null });
-    }
   };
 
   // 저장 버튼 클릭 시 실제 관심분야 리스트 세팅
@@ -79,9 +65,7 @@ export default function InterestSelectModal({
         <div className="py-6 mr-auto">
           {interests.length === 0 ? (
             <span className="text-subtle body-md-regular">
-              {isFilter
-                ? '선택된 태그가 없습니다'
-                : `가장 관심 있는 분야부터 순서대로 최대 ${maxCount}개까지 선택해주세요.`}
+              {`가장 관심 있는 분야부터 순서대로 최대 ${maxCount}개까지 선택해주세요.`}
             </span>
           ) : (
             <InterestTags
@@ -92,23 +76,19 @@ export default function InterestSelectModal({
           )}
         </div>
 
-        {/* 저장 버튼 */}
-        {!isFilter && (
-          <footer className="w-full flex justify-between items-center pt-4 border-t border-border-primary">
-            <span>
-              {interests.length}/{maxCount} 선택됨
-            </span>
-            {/* 아무것도 선택하지 않았을 경우 버튼 비활성화 */}
-            <Button
-              variant="solid"
-              size="xs"
-              onClick={handleSave}
-              disabled={interests.length === 0}
-            >
-              저장
-            </Button>
-          </footer>
-        )}
+        <footer className="w-full flex justify-between items-center pt-4 border-t border-border-primary">
+          <span>
+            {interests.length}/{maxCount} 선택됨
+          </span>
+          <Button
+            variant="solid"
+            size="xs"
+            onClick={handleSave}
+            disabled={interests.length === 0}
+          >
+            저장
+          </Button>
+        </footer>
         <Modal.Close />
       </Modal.Content>
     </Modal>
