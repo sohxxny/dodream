@@ -83,10 +83,7 @@ export default async function PostDetailPage({ params }: PageProps) {
 
         {/* 버튼 그룹, 모집 현황 */}
         <aside className="col-start-10 col-span-3 flex flex-col gap-7">
-          <PostDetailButtons
-            postData={postData}
-            profileExists={profileExists}
-          />
+          <PostDetailButtons postId={postId} profileExists={profileExists} />
           <RecruitStatus roles={postData.roles} postId={postData.id} />
         </aside>
       </article>

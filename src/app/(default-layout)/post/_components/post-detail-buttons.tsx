@@ -1,24 +1,27 @@
 'use client';
 
 import ChatButton from '@/components/features/post/post-card/buttons/chat-button';
-import type { PostDetailType } from '@/types/post.type';
+import { useGetPostDetail } from '@/hooks/post/use-get-posts';
 import { formatDeadlineAt } from '@/utils/date.util';
 import PostActionButton from './post-action-button';
 
 interface PostDetailButtonsProps {
-  postData: PostDetailType;
+  postId: bigint;
   profileExists: { exists: boolean };
 }
 
 /**
  * 모집글 상세 페이지 우측 상단의 버튼 그룹
- * @param postData - 모집글 상세 데이터
+ * @param postId - 모집글 ID
  * @param profileExists - 로그인 여부
  */
 export default function PostDetailButtons({
-  postData,
+  postId,
   profileExists,
 }: PostDetailButtonsProps) {
+  const { data: postData } = useGetPostDetail(BigInt(postId));
+  if (!postData) return null;
+
   const isClosed = new Date(postData.deadlineDate) < new Date();
 
   // 작성자인 경우: 마감일만 표시
