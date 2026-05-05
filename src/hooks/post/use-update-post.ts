@@ -18,6 +18,9 @@ export default function useUpdatePost() {
         queryKey: [QUERY_KEY.auth, QUERY_KEY.posts],
       });
       queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.auth, QUERY_KEY.myPosts],
+      });
+      queryClient.invalidateQueries({
         queryKey: [
           QUERY_KEY.auth,
           QUERY_KEY.postDetail,
