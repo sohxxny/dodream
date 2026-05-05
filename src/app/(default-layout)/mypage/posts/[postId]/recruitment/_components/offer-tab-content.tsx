@@ -29,7 +29,7 @@ export default function OfferTabContent({ postId }: OfferTabContentProps) {
   );
 
   return (
-    <RoleTabs defaultValue={availableRoles[0]}>
+    <RoleTabs key={availableRoles.join(',')} defaultValue={availableRoles[0]}>
       {/* TODO: API Response 형식 보고 RoleTabsHeader 컴포넌트로 대체 */}
       <RoleTabs.List>
         {availableRoles.map((role) => (

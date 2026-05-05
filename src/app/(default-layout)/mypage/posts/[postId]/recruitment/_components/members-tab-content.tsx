@@ -33,7 +33,7 @@ export default function MembersTabContent({ postId }: MembersTabContentProps) {
   ];
 
   return (
-    <RoleTabs defaultValue={roles[0]}>
+    <RoleTabs key={roles.join(',')} defaultValue={roles[0]}>
       <RoleTabs.List>
         {roles.map((role) => (
           <RoleTabs.Trigger key={role} value={role}>
