@@ -5,7 +5,8 @@ import { clientApis } from '@/services/client.api';
 
 export default function useToggleBookmark() {
   return useMutation({
-    mutationFn: (postId: bigint) => clientApis.bookmarks.toggleBookmark(postId),
+    mutationFn: ({ postId }: { postId: bigint; isBookmarked: boolean }) =>
+      clientApis.bookmarks.toggleBookmark(postId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.posts],
@@ -25,14 +26,13 @@ export default function useToggleBookmark() {
       });
     },
     // 낙관적 업데이트
-    onMutate: (postId) => {
-      const id = BigInt(postId).toString(); // 통일
+    onMutate: ({ postId, isBookmarked }) => {
+      const id = BigInt(postId).toString();
       const raw = queryClient.getQueryData<{ bookmarkedPostIds: string[] }>([
         QUERY_KEY.auth,
         QUERY_KEY.bookmarkIds,
       ]);
       const ids = raw?.bookmarkedPostIds ?? [];
-      const isBookmarked = ids.includes(id);
 
       queryClient.setQueryData([QUERY_KEY.auth, QUERY_KEY.bookmarkIds], {
         bookmarkedPostIds: isBookmarked

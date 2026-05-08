@@ -28,7 +28,7 @@ export default function BookmarkButton({
     if (!profileExists?.exists || isPending) {
       return;
     }
-    mutate(postId);
+    mutate({ postId, isBookmarked });
   };
 
   return (
