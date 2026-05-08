@@ -15,8 +15,14 @@ import HomeFilters from './filters/home-filters';
 import HomePostCards from './home-post-cards';
 
 export default function HomePosts() {
-  const { getParam, setParams, filterParams, getApiQueryString, clearParams } =
-    useQueryParams();
+  const {
+    getParam,
+    setParams,
+    setFilterParams,
+    filterParams,
+    getApiQueryString,
+    clearParams,
+  } = useQueryParams();
   const { data: posts } = useGetPosts(getApiQueryString());
 
   const activePostType = (getParam('type') as HomeProjectType) || 'ALL';
@@ -24,9 +30,9 @@ export default function HomePosts() {
   // 탭 클릭 핸들러
   const handleTabChange = (value: string) => {
     if (value === 'ALL') {
-      setParams({ type: null }); // ALL이면 파라미터 제거
+      setFilterParams({ type: null });
     } else {
-      setParams({ type: value });
+      setFilterParams({ type: value });
     }
   };
 

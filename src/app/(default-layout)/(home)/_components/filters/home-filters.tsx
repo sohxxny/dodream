@@ -21,11 +21,11 @@ export default function HomeFilters() {
   const {
     getParam,
     getArrayParam,
-    setParams,
+    setFilterParams,
     clearParams,
     filterParams,
     getBoolParam,
-    setBoolParam,
+    setFilterBoolParam,
   } = useQueryParams();
 
   const currentRoles = getArrayParam('roles');
@@ -44,7 +44,7 @@ export default function HomeFilters() {
               const newRoles = currentRoles.includes(role.value)
                 ? currentRoles.filter((r) => r !== role.value)
                 : [...currentRoles, role.value];
-              setParams({ roles: newRoles.length > 0 ? newRoles : null });
+              setFilterParams({ roles: newRoles.length > 0 ? newRoles : null });
             },
             isSelected: currentRoles.includes(role.value),
           }))}
@@ -63,7 +63,7 @@ export default function HomeFilters() {
           label="활동 방식"
           items={ACTIVITY_MODE_LIST.map((mode) => ({
             label: mode.label,
-            onSelect: () => setParams({ activityMode: mode.value }),
+            onSelect: () => setFilterParams({ activityMode: mode.value }),
             isSelected: mode.value === currentMode,
           }))}
         >
@@ -75,7 +75,7 @@ export default function HomeFilters() {
           label={currentSort as SortType}
           items={SORT_LABEL_LIST.map((sortType) => ({
             label: sortType.label,
-            onSelect: () => setParams({ sort: sortType.value }),
+            onSelect: () => setFilterParams({ sort: sortType.value }),
             isSelected: sortType.value === currentSort,
           }))}
         >
@@ -88,7 +88,7 @@ export default function HomeFilters() {
         <button
           type="button"
           onClick={() =>
-            setBoolParam(
+            setFilterBoolParam(
               'onlyRecruiting',
               !getBoolParam('onlyRecruiting', true),
             )

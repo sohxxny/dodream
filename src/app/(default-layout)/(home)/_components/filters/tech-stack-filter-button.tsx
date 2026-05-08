@@ -8,7 +8,7 @@ import { convertTechStackToId } from '@/utils/profile.util';
 import HomeFilterButton from './home-filter-button';
 
 export default function TechStackFilterButton() {
-  const { getArrayParam, setParams } = useQueryParams();
+  const { getArrayParam, setFilterParams } = useQueryParams();
   const [stacks, setStacks] = useState<number[]>([]);
 
   const handleOpenChange = (open: boolean) => {
@@ -27,7 +27,7 @@ export default function TechStackFilterButton() {
       ? stacks.filter((element) => element !== stack)
       : [...stacks, stack];
     setStacks(newStacks);
-    setParams({ techs: newStacks.length > 0 ? newStacks : null });
+    setFilterParams({ techs: newStacks.length > 0 ? newStacks : null });
   };
 
   return (

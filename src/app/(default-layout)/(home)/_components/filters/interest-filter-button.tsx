@@ -8,7 +8,7 @@ import { convertInterestToId } from '@/utils/profile.util';
 import HomeFilterButton from './home-filter-button';
 
 export default function InterestFilterButton() {
-  const { getArrayParam, setParams } = useQueryParams();
+  const { getArrayParam, setFilterParams } = useQueryParams();
   const [interests, setInterests] = useState<number[]>([]);
 
   const handleOpenChange = (open: boolean) => {
@@ -27,7 +27,9 @@ export default function InterestFilterButton() {
       ? interests.filter((id) => id !== interestId)
       : [...interests, interestId];
     setInterests(newInterests);
-    setParams({ interests: newInterests.length > 0 ? newInterests : null });
+    setFilterParams({
+      interests: newInterests.length > 0 ? newInterests : null,
+    });
   };
 
   return (

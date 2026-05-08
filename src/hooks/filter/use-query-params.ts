@@ -102,6 +102,21 @@ export default function useQueryParams() {
     setParams({ [key]: value ? 'true' : 'false' });
   };
 
+  /** 필터 파라미터 설정 (page 리셋 포함) */
+  const setFilterParams = (
+    newParams: Record<
+      string,
+      string | number | string[] | number[] | null | undefined
+    >,
+  ) => {
+    setParams({ ...newParams, page: null });
+  };
+
+  /** 필터 파라미터 설정 (page 리셋 포함) */
+  const setFilterBoolParam = (key: string, value: boolean) => {
+    setParams({ [key]: value ? 'true' : 'false', page: null });
+  };
+
   /** 개별 파라미터 삭제 */
   const removeParam = (key: string) => {
     setParams({ [key]: null });
@@ -137,8 +152,10 @@ export default function useQueryParams() {
     getArrayParam,
     filterParams,
     setParams,
+    setFilterParams,
     getBoolParam,
     setBoolParam,
+    setFilterBoolParam,
     removeParam,
     clearParams,
     getApiQueryString,
