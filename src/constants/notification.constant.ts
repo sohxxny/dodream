@@ -14,6 +14,7 @@ export const NOTIFICATION_ICON: Record<
   PROPOSAL_SENT: MailIcon,
   PROPOSAL_APPLIED: FileCheckIcon,
   APPLICATION_ACCEPTED: HandShakeIcon,
+  APPLICANT_ACCEPTED: HandShakeIcon,
   BOOKMARK_DEADLINE: BookmarkIcon,
   REVIEW_ACTIVATED: MessageSquareQuoteIcon,
   FEEDBACK_WRITTEN: MessageSquareQuoteIcon,

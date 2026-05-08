@@ -95,8 +95,13 @@ function NotificationRow({ notification }: NotificationRowProps) {
         `/mypage/posts/${BigInt(notification.targetPostId)}/recruitment?tab=applicants`,
       );
     } else if (notification.type === 'APPLICATION_ACCEPTED') {
-      // 지원 수락 - 참여 중인 프로젝트 탭으로 이동
+      // 내 지원 수락 - 참여 중인 프로젝트 탭으로 이동
       router.push('/mypage/participations?tab=matched');
+    } else if (notification.type === 'APPLICANT_ACCEPTED') {
+      // 내 모집글 지원자 수락 - 해당 모집글 멤버 탭으로 이동
+      router.push(
+        `/mypage/posts/${BigInt(notification.targetPostId)}/recruitment?tab=members`,
+      );
     } else if (notification.type === 'REVIEW_ACTIVATED') {
       // 후기 작성 가능 알림 - 이미 작성했으면 토스트, 아니면 모달
       const reviews = await clientApis.review.getMyReviewsByPost(
