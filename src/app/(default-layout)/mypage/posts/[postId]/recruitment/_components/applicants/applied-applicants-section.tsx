@@ -41,7 +41,7 @@ export default function AppliedApplicantsSection({
 
   // AI 추천 버튼 클릭 핸들러
   const handleAiRecommendClick = () => {
-    toast({ title: '준비중입니다.' }); // 로직 주석 처리
+    toast({ title: '데모 버전에서는 사용할 수 없습니다.' });
 
     // 이미 데이터가 있으면 토스트만 띄우기 (캐싱)
     // if (recommendedApplicants) {

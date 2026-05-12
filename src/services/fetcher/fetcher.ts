@@ -85,7 +85,7 @@ export async function fetcher<T>(
     return res.status === 204 ? ({} as T) : await res.json();
   } catch (error) {
     if (isErrorType(error)) {
-      if (error.code === 401 || error.code === 403) {
+      if (error.code === 401 || error.code === 403 || error.code === 404) {
         console.log(`[${error.code}] ${error.message}`);
       } else {
         console.error(

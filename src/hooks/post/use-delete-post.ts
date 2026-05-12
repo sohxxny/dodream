@@ -10,7 +10,7 @@ export default function useDeletePost(postId: bigint) {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.posts],
       });
-      queryClient.invalidateQueries({
+      queryClient.removeQueries({
         queryKey: [QUERY_KEY.auth, QUERY_KEY.myPosts],
       });
       queryClient.removeQueries({

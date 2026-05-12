@@ -45,6 +45,9 @@ export default function RootLayout({
       className={`${pretendard.variable} max-w-screen min-w-300`}
     >
       <body className="max-w-screen min-w-300 min-h-screen">
+        <div className="fixed h-8 flex items-center justify-center w-full top-0 left-0 bg-surface border-b border-border-primary body-md-medium text-error z-50">
+          데모 사이트입니다.
+        </div>
         <Providers>{children}</Providers>
       </body>
     </html>

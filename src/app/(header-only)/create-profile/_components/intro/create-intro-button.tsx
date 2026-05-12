@@ -1,23 +1,11 @@
-import { overlay } from 'overlay-kit';
-import {
-  INTERESTS,
-  INTERESTS_ID_MAP,
-  TECH_STACK_ID_MAP,
-} from '@/constants/profile.constant';
+import useToast from '@/hooks/use-toast';
 import type {
   ActivityModeType,
   AgeRangeType,
-  AiRequestType,
   ExperienceType,
   LinkItemType,
   RoleType,
 } from '@/types/profile.type';
-import {
-  convertActivityModeValue,
-  convertAgeValue,
-  convertExperienceValue,
-} from '@/utils/profile.util';
-import CreateIntroModal from './create-intro-modal';
 
 interface CreateIntroButtonProps {
   nickname: string;
@@ -45,44 +33,35 @@ interface CreateIntroButtonProps {
  * @param intro - 자기소개
  * @param setIntro - 자기소개 생성 완료 시 텍스트 필드에 저장하는 함수
  */
-export default function CreateIntroButton({
-  nickname,
-  age,
-  experience,
-  activityMode,
-  links,
-  role,
-  interests,
-  techStacks,
-  intro,
-  setIntro,
-}: CreateIntroButtonProps) {
+export default function CreateIntroButton(_: CreateIntroButtonProps) {
   // 요청 타입에 맞도록 변환
-  const data: AiRequestType = {
-    nickname,
-    ageBand: convertAgeValue(age),
-    experience: convertExperienceValue(experience),
-    activityMode: convertActivityModeValue(activityMode),
-    introText: intro,
-    profileUrls: links
-      .filter((url) => url.value !== '')
-      .map((url) => url.value),
-    roles: [role],
-    interestKeywords: interests.map((id) => INTERESTS[INTERESTS_ID_MAP[id]]),
-    techSkills: techStacks.map((id) => TECH_STACK_ID_MAP[id]),
-  };
+  // const data: AiRequestType = {
+  //   nickname,
+  //   ageBand: convertAgeValue(age),
+  //   experience: convertExperienceValue(experience),
+  //   activityMode: convertActivityModeValue(activityMode),
+  //   introText: intro,
+  //   profileUrls: links
+  //     .filter((url) => url.value !== '')
+  //     .map((url) => url.value),
+  //   roles: [role],
+  //   interestKeywords: interests.map((id) => INTERESTS[INTERESTS_ID_MAP[id]]),
+  //   techSkills: techStacks.map((id) => TECH_STACK_ID_MAP[id]),
+  // };
+  const toast = useToast();
 
   return (
     <button
       onClick={() => {
-        overlay.open(({ isOpen, close }) => (
-          <CreateIntroModal
-            isOpen={isOpen}
-            onClose={close}
-            data={data}
-            setIntro={setIntro}
-          />
-        ));
+        toast({ title: '데모 버전에서는 사용할 수 없습니다.' });
+        // overlay.open(({ isOpen, close }) => (
+        //   <CreateIntroModal
+        //     isOpen={isOpen}
+        //     onClose={close}
+        //     data={data}
+        //     setIntro={setIntro}
+        //   />
+        // ));
       }}
       className="border border-border-brand text-brand body-lg-medium h-8.5 w-35 rounded-md bg-surface py-2 ml-3 hover:bg-button-ai"
       type="button"

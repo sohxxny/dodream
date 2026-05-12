@@ -1,9 +1,12 @@
 'use client';
 
+import { notFound } from 'next/navigation';
 import { use } from 'react';
 import { Tabs } from '@/components/commons/tabs';
 import MyPageHeader from '@/components/features/mypage/commons/mypage-header';
 import useQueryParams from '@/hooks/filter/use-query-params';
+import { useGetPostDetail } from '@/hooks/post/use-get-posts';
+import type { ErrorType } from '@/types/error.type';
 import ApplicantsTabContent from './_components/applicants-tab-content';
 import MembersTabContent from './_components/members-tab-content';
 import OfferTabContent from './_components/offer-tab-content';
@@ -26,7 +29,11 @@ export default function PostRecruitmentPage({
   params,
 }: PostRecruitmentPageProps) {
   const { postId } = use(params);
+  const { isError, error } = useGetPostDetail(BigInt(postId));
   const { getParam, setParams } = useQueryParams();
+
+  if (isError && (error as unknown as ErrorType)?.code === 404) notFound();
+
   const currentTab = getParam('tab') ?? RECRUITMENT_TABS[0].tabValue;
 
   const currentTabConfig = RECRUITMENT_TABS.find(

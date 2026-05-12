@@ -1,6 +1,6 @@
 import Button from '@/components/commons/buttons/button';
 import Modal from '@/components/commons/modal';
-import useDeleteUser from '@/hooks/auth/use-delete-user';
+import useToast from '@/hooks/use-toast';
 
 interface DeleteAccountModalProps {
   isOpen: boolean;
@@ -11,7 +11,8 @@ export default function DeleteAccountModal({
   isOpen,
   onClose,
 }: DeleteAccountModalProps) {
-  const { mutate: deleteUser } = useDeleteUser();
+  // const { mutate: deleteUser } = useDeleteUser();
+  const toast = useToast();
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -38,7 +39,14 @@ export default function DeleteAccountModal({
           <Button variant="outline" size="xs" onClick={onClose}>
             취소
           </Button>
-          <Button variant="solid" size="xs" onClick={() => deleteUser()}>
+          {/* <Button variant="solid" size="xs" onClick={() => deleteUser()}> */}
+          <Button
+            variant="solid"
+            size="xs"
+            onClick={() =>
+              toast({ title: '데모 버전에서는 사용할 수 없습니다.' })
+            }
+          >
             삭제
           </Button>
         </footer>

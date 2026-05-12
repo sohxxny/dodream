@@ -67,6 +67,7 @@
     "@types/react-dom": "^19",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.4",
+    "msw": "^2.14.2",
     "sass": "^1.94.0",
     "typescript": "^5"
   },
@@ -80,6 +81,11 @@
     ],
     "*": [
       "biome check --no-errors-on-unmatched --files-ignore-unknown=true"
+    ]
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
     ]
   }
 }
