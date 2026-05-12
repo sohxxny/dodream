@@ -7,6 +7,7 @@ export const PRESERVE_PARAMS = [
   'onlyRecruiting',
   'type',
   'page',
+  'keyword',
 ] as const;
 
 /** 정렬 기준 */

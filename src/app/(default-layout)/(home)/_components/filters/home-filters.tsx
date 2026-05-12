@@ -3,6 +3,7 @@ import { useState } from 'react';
 import ArrowUpIcon from '@/assets/icons/chevron-up/14.svg';
 import RotateIcon from '@/assets/icons/rotate/14.svg';
 import Dropdown from '@/components/commons/dropdown';
+import SearchInput from '@/components/commons/text-fields/search-input';
 import { SORT_LABEL_LIST, SORT_LABELS } from '@/constants/filter.constant';
 import { ACTIVITY_MODE_LIST, ROLE_LIST } from '@/constants/profile.constant';
 import useQueryParams from '@/hooks/filter/use-query-params';
@@ -17,7 +18,7 @@ import TechStackFilterButton from './tech-stack-filter-button';
  */
 export default function HomeFilters() {
   const [isFilterOpen, setFilterOpen] = useState(true);
-  // const [keyword, setKeyword] = useState('');
+  const [keyword, setKeyword] = useState('');
   const {
     getParam,
     getArrayParam,
@@ -104,14 +105,22 @@ export default function HomeFilters() {
         </button>
 
         {/* 검색 */}
-        {/* TODO: 필터링 API와 통합되면 추가 */}
-        {/* <SearchInput
+        <SearchInput
           placeholder="찾고 싶은 키워드를 검색하세요"
           variant="dark"
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
-          className="w-[283px]"
-        /> */}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter')
+              setFilterParams({ keyword: keyword || null });
+          }}
+          onSearch={() => setFilterParams({ keyword: keyword || null })}
+          onClear={() => {
+            setKeyword('');
+            setFilterParams({ keyword: null });
+          }}
+          className="w-70.75"
+        />
       </div>
 
       <hr className="border-border-primary mb-6" />
